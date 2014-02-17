@@ -1,0 +1,5 @@
+yahoo.com
+facebook.com
+google.com
+www.dev
+mail.dev

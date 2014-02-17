@@ -1,0 +1,21 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Dashboard - Device details: {{ device_uid }} </title>
+</head>
+<body>
+    <h2>Device: {{ device_uid }}</h2>
+    <hr/>
+    <h3>Device templates:</h3>
+    {% if device_templates %}
+        <ul>
+            {% for template in device_templates %}
+                <li><a href="/device/{{ device_id }}/templates/{{ template.id }}/">{{ template.text }} | {{ template.path }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There are no templates for device {{ device_uid }} in the database.</p>
+    {% endif %}
+</body>
+</html>

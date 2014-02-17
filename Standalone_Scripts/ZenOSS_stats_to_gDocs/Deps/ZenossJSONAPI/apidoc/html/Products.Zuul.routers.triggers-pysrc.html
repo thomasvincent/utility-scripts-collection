@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Products.Zuul.routers.triggers</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="Products.Zuul.routers-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;Products ::
+        Package&nbsp;Zuul ::
+        <a href="Products.Zuul.routers-module.html">Package&nbsp;routers</a> ::
+        Module&nbsp;triggers
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="Products.Zuul.routers.triggers-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="Products.Zuul.routers.triggers-module.html">Module Products.Zuul.routers.triggers</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment">###########################################################################</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-comment"># This program is part of Zenoss Core, an open source monitoring platform.</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-comment"># Copyright (C) 2010, Zenoss Inc.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-comment"># This program is free software; you can redistribute it and/or modify it</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-comment"># under the terms of the GNU General Public License version 2 or (at your</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-comment"># option) any later version as published by the Free Software Foundation.</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-comment"># For complete information please visit: http://www.zenoss.com/oss/</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-comment">###########################################################################</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">operator</tt> <tt class="py-keyword">import</tt> <tt class="py-name">itemgetter</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Products</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Zuul</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">zope</tt><tt class="py-op">.</tt><tt class="py-name">component</tt> <tt class="py-keyword">import</tt> <tt class="py-name">getUtilitiesFor</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Products</tt><tt class="py-op">.</tt><tt class="py-name">ZenModel</tt><tt class="py-op">.</tt><tt class="py-name">interfaces</tt> <tt class="py-keyword">import</tt> <tt class="py-name">IAction</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Products</tt><tt class="py-op">.</tt><tt class="py-name">ZenUtils</tt><tt class="py-op">.</tt><tt class="py-name">Ext</tt> <tt class="py-keyword">import</tt> <tt class="py-name">DirectRouter</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Products</tt><tt class="py-op">.</tt><tt class="py-name">ZenUtils</tt><tt class="py-op">.</tt><tt class="py-name">extdirect</tt><tt class="py-op">.</tt><tt class="py-name">router</tt> <tt class="py-keyword">import</tt> <tt class="py-name">DirectResponse</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">Products</tt><tt class="py-op">.</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">decorators</tt> <tt class="py-keyword">import</tt> <tt class="py-name">serviceConnectionError</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">zenoss</tt><tt class="py-op">.</tt><tt class="py-name">protocols</tt><tt class="py-op">.</tt><tt class="py-name">protobufs</tt><tt class="py-op">.</tt><tt class="py-name">zep_pb2</tt> <tt class="py-keyword">import</tt> <tt class="py-name">RULE_TYPE_JYTHON</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">logging</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable Products.Zuul.routers.device.log=Products.Zuul.routers.device-module.html#log,Variable Products.Zuul.routers.log=Products.Zuul.routers-module.html#log,Variable Products.Zuul.routers.mibs.log=Products.Zuul.routers.mibs-module.html#log,Variable Products.Zuul.routers.network.log=Products.Zuul.routers.network-module.html#log,Variable Products.Zuul.routers.report.log=Products.Zuul.routers.report-module.html#log,Variable Products.Zuul.routers.triggers.log=Products.Zuul.routers.triggers-module.html#log,Variable Products.Zuul.routers.zenpack.log=Products.Zuul.routers.zenpack-module.html#log,Variable Products.Zuul.routers.zep.log=Products.Zuul.routers.zep-module.html#log"><a title="Products.Zuul.routers.device.log
+Products.Zuul.routers.log
+Products.Zuul.routers.mibs.log
+Products.Zuul.routers.network.log
+Products.Zuul.routers.report.log
+Products.Zuul.routers.triggers.log
+Products.Zuul.routers.zenpack.log
+Products.Zuul.routers.zep.log" class="py-name" href="#" onclick="return doclink('link-0', 'log', 'link-0');">log</a></tt> <tt class="py-op">=</tt> <tt class="py-name">logging</tt><tt class="py-op">.</tt><tt class="py-name">getLogger</tt><tt class="py-op">(</tt><tt class="py-string">'zen.triggers'</tt><tt class="py-op">)</tt><tt class="py-op">;</tt> </tt>
+<a name="TriggersRouter"></a><div id="TriggersRouter-def"><a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt> <a class="py-toggle" href="#" id="TriggersRouter-toggle" onclick="return toggle('TriggersRouter');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html">TriggersRouter</a><tt class="py-op">(</tt><tt class="py-base-class">DirectRouter</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="TriggersRouter-expanded"><a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"><tt class="py-docstring">    Router for Triggers UI section under Events.</tt> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"> </tt>
+<a name="TriggersRouter._getFacade"></a><div id="TriggersRouter._getFacade-def"><a name="L32"></a><tt class="py-lineno"> 32</tt> <a class="py-toggle" href="#" id="TriggersRouter._getFacade-toggle" onclick="return toggle('TriggersRouter._getFacade');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#_getFacade">_getFacade</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter._getFacade-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter._getFacade-expanded"><a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">getFacade</tt><tt class="py-op">(</tt><tt class="py-string">'triggers'</tt><tt class="py-op">,</tt> <tt class="py-name">self</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"> </tt>
+<a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getTriggers"></a><div id="TriggersRouter.getTriggers-def"><a name="L36"></a><tt class="py-lineno"> 36</tt> <a class="py-toggle" href="#" id="TriggersRouter.getTriggers-toggle" onclick="return toggle('TriggersRouter.getTriggers');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getTriggers">getTriggers</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">kwargs</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getTriggers-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getTriggers-expanded"><a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Method Products.Zuul.routers.TreeRouter._getFacade()=Products.Zuul.routers.TreeRouter-class.html#_getFacade,Method Products.Zuul.routers.device.DeviceRouter._getFacade()=Products.Zuul.routers.device.DeviceRouter-class.html#_getFacade,Method Products.Zuul.routers.mibs.MibRouter._getFacade()=Products.Zuul.routers.mibs.MibRouter-class.html#_getFacade,Method Products.Zuul.routers.network.Network6Router._getFacade()=Products.Zuul.routers.network.Network6Router-class.html#_getFacade,Method Products.Zuul.routers.network.NetworkRouter._getFacade()=Products.Zuul.routers.network.NetworkRouter-class.html#_getFacade,Method Products.Zuul.routers.process.ProcessRouter._getFacade()=Products.Zuul.routers.process.ProcessRouter-class.html#_getFacade,Method Products.Zuul.routers.report.ReportRouter._getFacade()=Products.Zuul.routers.report.ReportRouter-class.html#_getFacade,Method Products.Zuul.routers.service.ServiceRouter._getFacade()=Products.Zuul.routers.service.ServiceRouter-class.html#_getFacade,Method Products.Zuul.routers.template.TemplateRouter._getFacade()=Products.Zuul.routers.template.TemplateRouter-class.html#_getFacade,Method Products.Zuul.routers.triggers.TriggersRouter._getFacade()=Products.Zuul.routers.triggers.TriggersRouter-class.html#_getFacade,Method Products.Zuul.routers.zenpack.ZenPackRouter._getFacade()=Products.Zuul.routers.zenpack.ZenPackRouter-class.html#_getFacade"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-1', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getTriggers()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getTriggers"><a title="Products.Zuul.routers.triggers.TriggersRouter.getTriggers" class="py-name" href="#" onclick="return doclink('link-2', 'getTriggers', 'link-2');">getTriggers</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getTriggerList"></a><div id="TriggersRouter.getTriggerList-def"><a name="L40"></a><tt class="py-lineno"> 40</tt> <a class="py-toggle" href="#" id="TriggersRouter.getTriggerList-toggle" onclick="return toggle('TriggersRouter.getTriggerList');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getTriggerList">getTriggerList</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">unused</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getTriggerList-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getTriggerList-expanded"><a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-3', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getTriggerList()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getTriggerList"><a title="Products.Zuul.routers.triggers.TriggersRouter.getTriggerList" class="py-name" href="#" onclick="return doclink('link-4', 'getTriggerList', 'link-4');">getTriggerList</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.addTrigger"></a><div id="TriggersRouter.addTrigger-def"><a name="L44"></a><tt class="py-lineno"> 44</tt> <a class="py-toggle" href="#" id="TriggersRouter.addTrigger-toggle" onclick="return toggle('TriggersRouter.addTrigger');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#addTrigger">addTrigger</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">newId</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.addTrigger-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.addTrigger-expanded"><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-5', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.addTrigger()=Products.Zuul.routers.triggers.TriggersRouter-class.html#addTrigger"><a title="Products.Zuul.routers.triggers.TriggersRouter.addTrigger" class="py-name" href="#" onclick="return doclink('link-6', 'addTrigger', 'link-6');">addTrigger</a></tt><tt class="py-op">(</tt><tt class="py-name">newId</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.removeTrigger"></a><div id="TriggersRouter.removeTrigger-def"><a name="L48"></a><tt class="py-lineno"> 48</tt> <a class="py-toggle" href="#" id="TriggersRouter.removeTrigger-toggle" onclick="return toggle('TriggersRouter.removeTrigger');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#removeTrigger">removeTrigger</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uuid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.removeTrigger-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.removeTrigger-expanded"><a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">        <tt class="py-name">updated_count</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-7" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-7', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.removeTrigger()=Products.Zuul.routers.triggers.TriggersRouter-class.html#removeTrigger"><a title="Products.Zuul.routers.triggers.TriggersRouter.removeTrigger" class="py-name" href="#" onclick="return doclink('link-8', 'removeTrigger', 'link-8');">removeTrigger</a></tt><tt class="py-op">(</tt><tt class="py-name">uuid</tt><tt class="py-op">)</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">        <tt class="py-name">msg</tt> <tt class="py-op">=</tt> <tt class="py-string">"Trigger removed successfully. {count} {noun} {verb} updated."</tt><tt class="py-op">.</tt><tt class="py-name">format</tt><tt class="py-op">(</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line">            <tt class="py-name">count</tt> <tt class="py-op">=</tt> <tt class="py-name">updated_count</tt><tt class="py-op">,</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line">            <tt class="py-name">noun</tt> <tt class="py-op">=</tt> <tt class="py-string">'notification'</tt> <tt class="py-keyword">if</tt> <tt class="py-name">updated_count</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt> <tt class="py-keyword">else</tt> <tt class="py-string">'notifications'</tt><tt class="py-op">,</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">            <tt class="py-name">verb</tt> <tt class="py-op">=</tt> <tt class="py-string">'was'</tt> <tt class="py-keyword">if</tt> <tt class="py-name">updated_count</tt> <tt class="py-op">==</tt> <tt class="py-number">1</tt> <tt class="py-keyword">else</tt> <tt class="py-string">'were'</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">        <tt class="py-op">)</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">=</tt><tt class="py-name">msg</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getTrigger"></a><div id="TriggersRouter.getTrigger-def"><a name="L61"></a><tt class="py-lineno"> 61</tt> <a class="py-toggle" href="#" id="TriggersRouter.getTrigger-toggle" onclick="return toggle('TriggersRouter.getTrigger');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getTrigger">getTrigger</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uuid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getTrigger-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getTrigger-expanded"><a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-9', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getTrigger()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getTrigger"><a title="Products.Zuul.routers.triggers.TriggersRouter.getTrigger" class="py-name" href="#" onclick="return doclink('link-10', 'getTrigger', 'link-10');">getTrigger</a></tt><tt class="py-op">(</tt><tt class="py-name">uuid</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line"> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.updateTrigger"></a><div id="TriggersRouter.updateTrigger-def"><a name="L65"></a><tt class="py-lineno"> 65</tt> <a class="py-toggle" href="#" id="TriggersRouter.updateTrigger-toggle" onclick="return toggle('TriggersRouter.updateTrigger');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#updateTrigger">updateTrigger</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">data</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.updateTrigger-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.updateTrigger-expanded"><a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">        <tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-string">'rule'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'api_version'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-number">1</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">        <tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-string">'rule'</tt><tt class="py-op">]</tt><tt class="py-op">[</tt><tt class="py-string">'type'</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">RULE_TYPE_JYTHON</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-11" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-11', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.updateTrigger()=Products.Zuul.routers.triggers.TriggersRouter-class.html#updateTrigger"><a title="Products.Zuul.routers.triggers.TriggersRouter.updateTrigger" class="py-name" href="#" onclick="return doclink('link-12', 'updateTrigger', 'link-12');">updateTrigger</a></tt><tt class="py-op">(</tt><tt class="py-op">**</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">=</tt><tt class="py-string">"Trigger updated successfully."</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">response</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.parseFilter"></a><div id="TriggersRouter.parseFilter-def"><a name="L72"></a><tt class="py-lineno"> 72</tt> <a class="py-toggle" href="#" id="TriggersRouter.parseFilter-toggle" onclick="return toggle('TriggersRouter.parseFilter');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#parseFilter">parseFilter</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">source</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.parseFilter-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.parseFilter-expanded"><a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">            <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-13', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.parseFilter()=Products.Zuul.routers.triggers.TriggersRouter-class.html#parseFilter"><a title="Products.Zuul.routers.triggers.TriggersRouter.parseFilter" class="py-name" href="#" onclick="return doclink('link-14', 'parseFilter', 'link-14');">parseFilter</a></tt><tt class="py-op">(</tt><tt class="py-name">source</tt><tt class="py-op">)</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">response</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">Exception</tt><tt class="py-op">,</tt> <tt class="py-name">e</tt><tt class="py-op">:</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">            <tt id="link-15" class="py-name"><a title="Products.Zuul.routers.device.log
+Products.Zuul.routers.log
+Products.Zuul.routers.mibs.log
+Products.Zuul.routers.network.log
+Products.Zuul.routers.report.log
+Products.Zuul.routers.triggers.log
+Products.Zuul.routers.zenpack.log
+Products.Zuul.routers.zep.log" class="py-name" href="#" onclick="return doclink('link-15', 'log', 'link-0');">log</a></tt><tt class="py-op">.</tt><tt class="py-name">exception</tt><tt class="py-op">(</tt><tt class="py-name">e</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">fail</tt><tt class="py-op">(</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">                <tt class="py-string">'Error parsing filter source. Please check your syntax.'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line">    <tt class="py-comment"># notification subscriptions</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getNotifications"></a><div id="TriggersRouter.getNotifications-def"><a name="L84"></a><tt class="py-lineno"> 84</tt> <a class="py-toggle" href="#" id="TriggersRouter.getNotifications-toggle" onclick="return toggle('TriggersRouter.getNotifications');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getNotifications">getNotifications</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getNotifications-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getNotifications-expanded"><a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-16', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-17" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getNotifications()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getNotifications"><a title="Products.Zuul.routers.triggers.TriggersRouter.getNotifications" class="py-name" href="#" onclick="return doclink('link-17', 'getNotifications', 'link-17');">getNotifications</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line"> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.addNotification"></a><div id="TriggersRouter.addNotification-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="TriggersRouter.addNotification-toggle" onclick="return toggle('TriggersRouter.addNotification');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#addNotification">addNotification</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">newId</tt><tt class="py-op">,</tt> <tt class="py-param">action</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.addNotification-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.addNotification-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-18', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-19" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.addNotification()=Products.Zuul.routers.triggers.TriggersRouter-class.html#addNotification"><a title="Products.Zuul.routers.triggers.TriggersRouter.addNotification" class="py-name" href="#" onclick="return doclink('link-19', 'addNotification', 'link-19');">addNotification</a></tt><tt class="py-op">(</tt><tt class="py-name">newId</tt><tt class="py-op">,</tt> <tt class="py-name">action</tt><tt class="py-op">)</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.removeNotification"></a><div id="TriggersRouter.removeNotification-def"><a name="L94"></a><tt class="py-lineno"> 94</tt> <a class="py-toggle" href="#" id="TriggersRouter.removeNotification-toggle" onclick="return toggle('TriggersRouter.removeNotification');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#removeNotification">removeNotification</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.removeNotification-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.removeNotification-expanded"><a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-20', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.removeNotification()=Products.Zuul.routers.triggers.TriggersRouter-class.html#removeNotification"><a title="Products.Zuul.routers.triggers.TriggersRouter.removeNotification" class="py-name" href="#" onclick="return doclink('link-21', 'removeNotification', 'link-21');">removeNotification</a></tt><tt class="py-op">(</tt><tt class="py-name">uid</tt><tt class="py-op">)</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">=</tt><tt class="py-string">"Notification removed successfully."</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">response</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getNotificationTypes"></a><div id="TriggersRouter.getNotificationTypes-def"><a name="L99"></a><tt class="py-lineno"> 99</tt> <a class="py-toggle" href="#" id="TriggersRouter.getNotificationTypes-toggle" onclick="return toggle('TriggersRouter.getNotificationTypes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getNotificationTypes">getNotificationTypes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getNotificationTypes-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getNotificationTypes-expanded"><a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line">        <tt class="py-name">utils</tt> <tt class="py-op">=</tt> <tt class="py-name">getUtilitiesFor</tt><tt class="py-op">(</tt><tt class="py-name">IAction</tt><tt class="py-op">)</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">        <tt class="py-name">actionTypes</tt> <tt class="py-op">=</tt> <tt class="py-name">sorted</tt><tt class="py-op">(</tt><tt class="py-op">(</tt><tt class="py-name">dict</tt><tt class="py-op">(</tt><tt class="py-name">id</tt><tt class="py-op">=</tt><tt class="py-name">id</tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-name">util</tt><tt class="py-op">.</tt><tt class="py-name">name</tt><tt class="py-op">)</tt> <tt class="py-keyword">for</tt> <tt class="py-name">id</tt><tt class="py-op">,</tt> <tt class="py-name">util</tt> <tt class="py-keyword">in</tt> <tt class="py-name">utils</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> <tt class="py-name">key</tt><tt class="py-op">=</tt><tt class="py-name">itemgetter</tt><tt class="py-op">(</tt><tt class="py-string">'id'</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt id="link-22" class="py-name"><a title="Products.Zuul.routers.device.log
+Products.Zuul.routers.log
+Products.Zuul.routers.mibs.log
+Products.Zuul.routers.network.log
+Products.Zuul.routers.report.log
+Products.Zuul.routers.triggers.log
+Products.Zuul.routers.zenpack.log
+Products.Zuul.routers.zep.log" class="py-name" href="#" onclick="return doclink('link-22', 'log', 'link-0');">log</a></tt><tt class="py-op">.</tt><tt class="py-name">debug</tt><tt class="py-op">(</tt><tt class="py-string">'notification action types are: %s'</tt> <tt class="py-op">%</tt> <tt class="py-name">actionTypes</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">actionTypes</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line"> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getNotification"></a><div id="TriggersRouter.getNotification-def"><a name="L106"></a><tt class="py-lineno">106</tt> <a class="py-toggle" href="#" id="TriggersRouter.getNotification-toggle" onclick="return toggle('TriggersRouter.getNotification');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getNotification">getNotification</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getNotification-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getNotification-expanded"><a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-23', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getNotification()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getNotification"><a title="Products.Zuul.routers.triggers.TriggersRouter.getNotification" class="py-name" href="#" onclick="return doclink('link-24', 'getNotification', 'link-24');">getNotification</a></tt><tt class="py-op">(</tt><tt class="py-name">uid</tt><tt class="py-op">)</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line"> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.updateNotification"></a><div id="TriggersRouter.updateNotification-def"><a name="L111"></a><tt class="py-lineno">111</tt> <a class="py-toggle" href="#" id="TriggersRouter.updateNotification-toggle" onclick="return toggle('TriggersRouter.updateNotification');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#updateNotification">updateNotification</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">data</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.updateNotification-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.updateNotification-expanded"><a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-25', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.updateNotification()=Products.Zuul.routers.triggers.TriggersRouter-class.html#updateNotification"><a title="Products.Zuul.routers.triggers.TriggersRouter.updateNotification" class="py-name" href="#" onclick="return doclink('link-26', 'updateNotification', 'link-26');">updateNotification</a></tt><tt class="py-op">(</tt><tt class="py-op">**</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">=</tt><tt class="py-string">"Notification updated successfully."</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getRecipientOptions"></a><div id="TriggersRouter.getRecipientOptions-def"><a name="L116"></a><tt class="py-lineno">116</tt> <a class="py-toggle" href="#" id="TriggersRouter.getRecipientOptions-toggle" onclick="return toggle('TriggersRouter.getRecipientOptions');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getRecipientOptions">getRecipientOptions</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getRecipientOptions-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getRecipientOptions-expanded"><a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">        <tt class="py-name">data</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-27', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getRecipientOptions()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getRecipientOptions"><a title="Products.Zuul.routers.triggers.TriggersRouter.getRecipientOptions" class="py-name" href="#" onclick="return doclink('link-28', 'getRecipientOptions', 'link-28');">getRecipientOptions</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">data</tt><tt class="py-op">)</tt><tt class="py-op">;</tt> </tt>
+</div><a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line">    <tt class="py-comment"># subscription windows</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getWindows"></a><div id="TriggersRouter.getWindows-def"><a name="L122"></a><tt class="py-lineno">122</tt> <a class="py-toggle" href="#" id="TriggersRouter.getWindows-toggle" onclick="return toggle('TriggersRouter.getWindows');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getWindows">getWindows</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getWindows-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getWindows-expanded"><a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-29', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getWindows()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getWindows"><a title="Products.Zuul.routers.triggers.TriggersRouter.getWindows" class="py-name" href="#" onclick="return doclink('link-30', 'getWindows', 'link-30');">getWindows</a></tt><tt class="py-op">(</tt><tt class="py-name">uid</tt><tt class="py-op">)</tt> </tt>
+<a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.addWindow"></a><div id="TriggersRouter.addWindow-def"><a name="L127"></a><tt class="py-lineno">127</tt> <a class="py-toggle" href="#" id="TriggersRouter.addWindow-toggle" onclick="return toggle('TriggersRouter.addWindow');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#addWindow">addWindow</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">contextUid</tt><tt class="py-op">,</tt> <tt class="py-param">newId</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.addWindow-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.addWindow-expanded"><a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-31', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.addWindow()=Products.Zuul.routers.triggers.TriggersRouter-class.html#addWindow"><a title="Products.Zuul.routers.triggers.TriggersRouter.addWindow" class="py-name" href="#" onclick="return doclink('link-32', 'addWindow', 'link-32');">addWindow</a></tt><tt class="py-op">(</tt><tt class="py-name">contextUid</tt><tt class="py-op">,</tt> <tt class="py-name">newId</tt><tt class="py-op">)</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.removeWindow"></a><div id="TriggersRouter.removeWindow-def"><a name="L132"></a><tt class="py-lineno">132</tt> <a class="py-toggle" href="#" id="TriggersRouter.removeWindow-toggle" onclick="return toggle('TriggersRouter.removeWindow');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#removeWindow">removeWindow</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.removeWindow-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.removeWindow-expanded"><a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-33" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-33', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-34" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.removeWindow()=Products.Zuul.routers.triggers.TriggersRouter-class.html#removeWindow"><a title="Products.Zuul.routers.triggers.TriggersRouter.removeWindow" class="py-name" href="#" onclick="return doclink('link-34', 'removeWindow', 'link-34');">removeWindow</a></tt><tt class="py-op">(</tt><tt class="py-name">uid</tt><tt class="py-op">)</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line"> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.getWindow"></a><div id="TriggersRouter.getWindow-def"><a name="L137"></a><tt class="py-lineno">137</tt> <a class="py-toggle" href="#" id="TriggersRouter.getWindow-toggle" onclick="return toggle('TriggersRouter.getWindow');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#getWindow">getWindow</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">uid</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.getWindow-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.getWindow-expanded"><a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-35" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-35', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-36" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.getWindow()=Products.Zuul.routers.triggers.TriggersRouter-class.html#getWindow"><a title="Products.Zuul.routers.triggers.TriggersRouter.getWindow" class="py-name" href="#" onclick="return doclink('link-36', 'getWindow', 'link-36');">getWindow</a></tt><tt class="py-op">(</tt><tt class="py-name">uid</tt><tt class="py-op">)</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line"> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt class="py-decorator">@</tt><tt class="py-decorator">serviceConnectionError</tt> </tt>
+<a name="TriggersRouter.updateWindow"></a><div id="TriggersRouter.updateWindow-def"><a name="L142"></a><tt class="py-lineno">142</tt> <a class="py-toggle" href="#" id="TriggersRouter.updateWindow-toggle" onclick="return toggle('TriggersRouter.updateWindow');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="Products.Zuul.routers.triggers.TriggersRouter-class.html#updateWindow">updateWindow</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-op">**</tt><tt class="py-param">data</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="TriggersRouter.updateWindow-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="TriggersRouter.updateWindow-expanded"><a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">        <tt class="py-name">response</tt> <tt class="py-op">=</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-37" class="py-name"><a title="Products.Zuul.routers.TreeRouter._getFacade
+Products.Zuul.routers.device.DeviceRouter._getFacade
+Products.Zuul.routers.mibs.MibRouter._getFacade
+Products.Zuul.routers.network.Network6Router._getFacade
+Products.Zuul.routers.network.NetworkRouter._getFacade
+Products.Zuul.routers.process.ProcessRouter._getFacade
+Products.Zuul.routers.report.ReportRouter._getFacade
+Products.Zuul.routers.service.ServiceRouter._getFacade
+Products.Zuul.routers.template.TemplateRouter._getFacade
+Products.Zuul.routers.triggers.TriggersRouter._getFacade
+Products.Zuul.routers.zenpack.ZenPackRouter._getFacade" class="py-name" href="#" onclick="return doclink('link-37', '_getFacade', 'link-1');">_getFacade</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt id="link-38" class="py-name" targets="Method Products.Zuul.routers.triggers.TriggersRouter.updateWindow()=Products.Zuul.routers.triggers.TriggersRouter-class.html#updateWindow"><a title="Products.Zuul.routers.triggers.TriggersRouter.updateWindow" class="py-name" href="#" onclick="return doclink('link-38', 'updateWindow', 'link-38');">updateWindow</a></tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">DirectResponse</tt><tt class="py-op">.</tt><tt class="py-name">succeed</tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">Zuul</tt><tt class="py-op">.</tt><tt class="py-name">marshal</tt><tt class="py-op">(</tt><tt class="py-name">response</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="Products.Zuul.routers-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Sep 26 13:47:56 2011
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{'feed': 
+	{'updated': u'2011-06-10T06:37:22.115-07:00', 
+	 'subtitle': u'', 
+	 'updated_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=7, tm_min=37, tm_sec=22, tm_wday=4, tm_yday=161, tm_isdst=1), 
+	 'links': [
+	 			{
+	 				'href': u'http://tstdevblog.blogspot.com/feeds/posts/default', 
+	 				'type': u'application/atom+xml', 
+	 				'rel': u'http://schemas.google.com/g/2005#feed'
+	 			}, 
+	 			{
+	 				'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default', 
+	 				'type': u'application/atom+xml', 
+	 				'rel': u'self'
+	 			}, 
+	 			{
+	 				'href': u'http://tstdevblog.blogspot.com/', 
+	 				'type': u'text/html', 
+	 				'rel': u'alternate'
+	 			}, {
+	 				'href': u'http://pubsubhubbub.appspot.com/', 
+	 				'type': 'text/html', 
+	 				'rel': u'hub'
+	 			}
+	 		], 
+	 
+	 'title': u'TestDevBlog', 
+	 'author': u'DiVeR (noreply@blogger.com)', 
+	 'generator_detail': {
+	 						'href': u'http://www.blogger.com', 
+	 						'version': u'7.00', 
+	 						'name': u'Blogger'
+	 						}, 
+	 'subtitle_detail': {
+	 						'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 
+	 						'type': 'text/html', 
+	 						'value': u'', 
+	 						'language': None
+	 					}, 
+	 
+	 'title_detail': {
+	 					'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 
+	 					'type': 'text/plain', 
+	 					'value': u'TestDevBlog', 
+	 					'language': None
+	 					}, 
+	 					
+	 'link': u'http://tstdevblog.blogspot.com/', 
+	 'opensearch_startindex': u'1', 
+	 'opensearch_totalresults': u'3', 
+	 'author_detail': {
+	 					'name': u'DiVeR', 
+	 					'email': u'noreply@blogger.com'
+	 					}, 
+	 					
+	 'generator': u'Blogger', 
+	 'opensearch_itemsperpage': u'25', 
+	 'id': u'tag:blogger.com,1999:blog-21526281254419290'
+	 }, 
+	 'status': 200, 
+	 'updated': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=13, tm_min=37, tm_sec=22, tm_wday=4, tm_yday=161, tm_isdst=0), 
+	 'version': 'atom10', 
+	 'encoding': 'utf-8', 
+	 'bozo': 0, 
+	 
+	 'headers': {
+	 				'x-xss-protection': '1; 
+	 				mode=block', 
+	 				'x-content-type-options': 'nosniff', 
+	 				'expires': 'Fri, 10 Jun 2011 18:37:33 GMT', 
+	 				'server': 'GSE', 
+	 				'last-modified': 'Fri, 10 Jun 2011 13:37:22 GMT', 
+	 				'connection': 'close', 
+	 				'etag': 'W/"CUcAQ386fSl7ImA9WhZUF0w."', 
+	 				'cache-control': 'public, max-age=0, must-revalidate, proxy-revalidate', 
+	 				'date': 'Fri, 10 Jun 2011 18:37:33 GMT', 
+	 				'content-type': 'application/atom+xml'
+	 				}, 
+	 				
+	 'etag': 'W/"CUcAQ386fSl7ImA9WhZUF0w."', 
+	 'href': 'http://tstdevblog.blogspot.com/feeds/posts/default', 
+	 'namespaces': {
+	 					'': u'http://www.w3.org/2005/Atom', 
+	 					u'gd': u'http://schemas.google.com/g/2005', 
+	 					u'thr': u'http://purl.org/syndication/thread/1.0', 
+	 					u'openSearch': u'http://a9.com/-/spec/opensearchrss/1.0/', 
+	 					u'georss': u'http://www.georss.org/georss'
+	 					}, 
+	 					
+	 'entries': [
+	 				{
+	 					'updated': u'2011-06-10T06:37:22.128-07:00', 
+	 					'subtitle': u'message 3 contents<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-3254391860012987450?l=tstdevblog.blogspot.com" alt="" /></div>', 
+	 					'updated_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=7, tm_min=37, tm_sec=22, tm_wday=4, tm_yday=161, tm_isdst=1), 
+	 					'published_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=7, tm_min=37, tm_sec=0, tm_wday=4, tm_yday=161, tm_isdst=1), 
+	 					'title': u'message 3', 
+	 					'author': u'DiVeR (noreply@blogger.com)', 
+	 					'links': [
+	 								{
+	 									'href': u'http://tstdevblog.blogspot.com/feeds/3254391860012987450/comments/default', 
+	 									'type': u'application/atom+xml', 
+	 									'rel': u'replies', 
+	 									'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u043a \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044e'
+	 									}, 
+	 								{
+	 									'href': u'http://tstdevblog.blogspot.com/2011/06/message-3.html#comment-form', 
+	 									'type': u'text/html', 
+	 									'rel': u'replies', 
+	 									'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438: 0'
+	 								}, 
+	 								{
+	 									'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/3254391860012987450', 
+	 									'type': u'application/atom+xml', 
+	 									'rel': u'edit'
+	 								}, 
+	 								{
+	 									'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/3254391860012987450', 
+	 									'type': u'application/atom+xml', 
+	 									'rel': u'self'
+	 								}, 
+	 								{
+	 									'href': u'http://tstdevblog.blogspot.com/2011/06/message-3.html', 'type': u'text/html', 'rel': u'alternate', 'title': u'message 3'}], 'content': [{'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/html', 'value': u'message 3 contents<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-3254391860012987450?l=tstdevblog.blogspot.com" alt="" /></div>', 'language': None}], 'title_detail': {'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/plain', 'value': u'message 3', 'language': None}, 'gd_extendedproperty': u'', 'link': u'http://tstdevblog.blogspot.com/2011/06/message-3.html', 'published': u'2011-06-10T06:37:00.001-07:00', 'thr_total': u'0', 'author_detail': {'name': u'DiVeR', 'email': u'noreply@blogger.com'}, 'id': u'tag:blogger.com,1999:blog-21526281254419290.post-3254391860012987450'}, {'updated': u'2011-06-10T00:02:56.449-07:00', 'subtitle': u'ntntkajkl32qwe<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-1624185307498414723?l=tstdevblog.blogspot.com" alt="" /></div>', 'updated_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=1, tm_min=2, tm_sec=56, tm_wday=4, tm_yday=161, tm_isdst=1), 'published_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=1, tm_min=2, tm_sec=0, tm_wday=4, tm_yday=161, tm_isdst=1), 'title': u'message 2', 'author': u'DiVeR (noreply@blogger.com)', 'links': [{'href': u'http://tstdevblog.blogspot.com/feeds/1624185307498414723/comments/default', 'type': u'application/atom+xml', 'rel': u'replies', 'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u043a \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044e'}, {'href': u'http://tstdevblog.blogspot.com/2011/06/message-2.html#comment-form', 'type': u'text/html', 'rel': u'replies', 'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438: 0'}, {'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/1624185307498414723', 'type': u'application/atom+xml', 'rel': u'edit'}, {'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/1624185307498414723', 'type': u'application/atom+xml', 'rel': u'self'}, {'href': u'http://tstdevblog.blogspot.com/2011/06/message-2.html', 'type': u'text/html', 'rel': u'alternate', 'title': u'message 2'}], 'content': [{'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/html', 'value': u'ntntkajkl32qwe<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-1624185307498414723?l=tstdevblog.blogspot.com" alt="" /></div>', 'language': None}], 'title_detail': {'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/plain', 'value': u'message 2', 'language': None}, 'gd_extendedproperty': u'', 'link': u'http://tstdevblog.blogspot.com/2011/06/message-2.html', 'published': u'2011-06-10T00:02:00.001-07:00', 'thr_total': u'0', 'author_detail': {'name': u'DiVeR', 'email': u'noreply@blogger.com'}, 'id': u'tag:blogger.com,1999:blog-21526281254419290.post-1624185307498414723'}, {'updated': u'2011-06-10T00:00:30.463-07:00', 'subtitle': u'23123123123<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-8269190497149693025?l=tstdevblog.blogspot.com" alt="" /></div>', 'updated_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=1, tm_min=0, tm_sec=30, tm_wday=4, tm_yday=161, tm_isdst=1), 'published_parsed': time.struct_time(tm_year=2011, tm_mon=6, tm_mday=10, tm_hour=1, tm_min=0, tm_sec=0, tm_wday=4, tm_yday=161, tm_isdst=1), 'title': u'message 1', 'author': u'DiVeR (noreply@blogger.com)', 'links': [{'href': u'http://tstdevblog.blogspot.com/feeds/8269190497149693025/comments/default', 'type': u'application/atom+xml', 'rel': u'replies', 'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u043a \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044e'}, {'href': u'http://tstdevblog.blogspot.com/2011/06/message-1.html#comment-form', 'type': u'text/html', 'rel': u'replies', 'title': u'\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438: 0'}, {'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/8269190497149693025', 'type': u'application/atom+xml', 'rel': u'edit'}, {'href': u'http://www.blogger.com/feeds/21526281254419290/posts/default/8269190497149693025', 'type': u'application/atom+xml', 'rel': u'self'}, {'href': u'http://tstdevblog.blogspot.com/2011/06/message-1.html', 'type': u'text/html', 'rel': u'alternate', 'title': u'message 1'}], 'content': [{'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/html', 'value': u'23123123123<div class="blogger-post-footer"><img width="1" height="1" src="https://blogger.googleusercontent.com/tracker/21526281254419290-8269190497149693025?l=tstdevblog.blogspot.com" alt="" /></div>', 'language': None}], 'title_detail': {'base': 'http://tstdevblog.blogspot.com/feeds/posts/default', 'type': 'text/plain', 'value': u'message 1', 'language': None}, 'gd_extendedproperty': u'', 'link': u'http://tstdevblog.blogspot.com/2011/06/message-1.html', 'published': u'2011-06-10T00:00:00.001-07:00', 'thr_total': u'0', 'author_detail': {'name': u'DiVeR', 'email': u'noreply@blogger.com'}, 'id': u'tag:blogger.com,1999:blog-21526281254419290.post-8269190497149693025'}]}

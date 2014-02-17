@@ -1,0 +1,15 @@
+### Initialization ###
+main:
+	1. start irc thread
+	2. start rss thread
+	3. connect rss to irc using shared event handlers
+	
+	
+add feed ( feed url, channel for feed):
+	1. Register feed in global feeds regitry
+	2. Allocate new RSS Grabber object.
+	3. Initialize new object. 
+	4. Queue reinit
+	5. connect new thread to existing irc thread.
+	
+#######################

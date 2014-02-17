@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Dashboard - Template details: {{ template_uid }}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+</head>
+<body>
+    <h2> Template details</h2>
+    <p>Device: {{ device_name }} | {{ device_uid }}</p>
+    <p>Template: {{ template_text }} | {{ template_path }}</p>
+    <hr/>
+    {% if datapoints %}
+        {% for dp in datapoints %}
+            <p>Datasource: {{ dp.name}}</p>
+            <ul>
+                {% for key,value in pf_data.items %}
+                    {% if key == dp.name %}
+                        <li>
+                        <!--{% for point in value %}
+                            {{ point.value_str }}<br/>
+                            {{ point.timestamp }}
+                        {% endfor %} -->
+                        </li>
+                        <script type="text/javascript">
+                            google.load('visualization', '1', {packages: ['annotatedtimeline']});
+                            function drawVisualization() {
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('date', 'Date');
+                                data.addColumn('number', 'Value');
+                                data.addColumn('string', 'title1');
+                                data.addColumn('string', 'text1');
+
+                                data.addRows([
+                                    {% for point in value %}
+                                        {% ifnotequal point.value_str "" %}
+                                            [new Date({{ point.unixtm }}), {{ point.value_float }}, null,null],
+                                        {% endifnotequal %}
+                                    {% endfor %}
+                                ]);
+
+                                var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
+                                        document.getElementById('{{ dp.name }}'));
+                                annotatedtimeline.draw(data, {'displayAnnotations': true,
+                                    'dateFormat': "yyyy.MM.dd 'at' hh:mm:ss aaa",
+                                    'scaleType':'AnnotatedTimeLine.ScaleType.ALLFIXED'});
+                            }
+
+                            google.setOnLoadCallback(drawVisualization);
+                        </script>
+                        <div id="{{ dp.name }}" style="width: 800px; height: 200px;"></div>
+                            {% endif %}
+                {% endfor %}
+
+            </ul>
+            <hr width="30%" align="left"/>
+        {% endfor %}
+    {% else %}
+        <p>There are no data sources in this template. It means that template is incomplete or created few minutes ago.</p>
+    {% endif %}
+</body>
+</html>

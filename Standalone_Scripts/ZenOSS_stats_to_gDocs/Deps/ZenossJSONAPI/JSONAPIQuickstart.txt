@@ -1,0 +1,38 @@
+Zenoss 4.x JSON API Quickstart
+--------------------------------
+
+The Zenoss JSON API is a the preferred way to programmatically interact with a Zenoss
+instance. This is the same API that the Zenoss-4.x AJAX interface uses, so most anything
+that can be done through the user interface can be done programmatically.
+
+Use the available examples (in both Python and Java) to get a feel for the
+interaction model. You have two options when trying to find the appropriate method(s)
+to call for your use case: read through the available API documentation, or use a
+web browser JavaScript console (Firebug/Chrome JS Console/etc) to watch API calls
+while using the UI. Both methods used in tandem generally yield the best results.
+
+***
+IMPORTANT NOTE:
+The examples require a running Zenoss 4.x installation to communicate with. Please
+edit the ZENOSS_INSTANCE, ZENOSS_USERNAME, and ZENOSS_PASSWORD in the example
+source (api_example.py or JsonApi.java) you are using.
+***
+
+Example dependencies:
+
+The Python API example does not rely on any external library. The curses 'Event Console'
+example only requires the included texttable.py module. The Java API example requires
+json-simple and Apache's HttpClient. They are available at:
+http://code.google.com/p/json-simple/ and
+http://hc.apache.org/httpcomponents-client-ga/index.html
+
+In this archive:
+
+apidoc/* - Contains the core API documentation, both in PDF and HTML
+
+java/Main.java - Main stub to exercise the Java JsonApi example class
+java/JsonApi.java - Example class to handle interactions with Zenoss JSON API in Java
+
+python/api_example.py - Example class to handle interactions with Zenoss JSON API in Python
+python/event_curses.py - Example curses-based Zenoss 'Event Console'
+

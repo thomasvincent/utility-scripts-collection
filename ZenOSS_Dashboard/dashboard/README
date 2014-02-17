@@ -1,0 +1,5 @@
+Deps:
+
+1. reportlab
+2. django-cms
+3. zenoss json client
