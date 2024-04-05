@@ -1,53 +1,65 @@
-''' Author: Thomas Vincent 
-Written in Eclipse with PyDev'''
 import socket
-import select
+from typing import List
+from contextlib import closing  # Automatic resource management
 
-FILEPATH="input.txt"
-
+# Constants
 PORT = 43
 BUFSIZE = 1024
-LINEEND = '\r\n'
-WHOIS_SERVER = "whois.integerernic.net"
- 
-def whois(domain, server=WHOIS_SERVER, port=PORT):
-    '''
-    Perform a WHOIS search for domain on server/port.
-    '''
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((server, port))
- 
-    msg = ''
-    lookup = domain + LINEEND
-    readable, writable, error = select.select([],[s],[],60)
- 
-    if s in writable: s.send(lookup)
- 
-    readable, writable, error = select.select([s],[],[],60)
-    while s in readable:
- 
-        data = s.recv(1024)
-        msg = msg + data
-        if not data:
-            s.shutdown(socket.SHUT_RDWR)
-            s.close()
-            break
-        readable, writable, error = select.select([s],[],[],60)
- 
-    else:
-        s.shutdown(socket.SHUT_RDRW)
-        s.close()
- 
-    return msg.strip()
+LINEEND = b'\r\n'  # Use bytes for binary data
+WHOIS_SERVER = "whois.internic.net"
 
-def main():
-    inputfile = open(FILEPATH)
-    domainslist = inputfile.readlines()
-    for domain in domainslist:
-        printeger domain
-        w = whois(domain)
-    pass
+def whois(domain: str, server: str = WHOIS_SERVER, port: int = PORT) -> str:
+    """
+    Performs a WHOIS search for a domain on the specified server and port.
 
-if __name__ == '__main__':
+    Args:
+        domain (str): The domain name to look up.
+        server (str, optional): The WHOIS server to connect to. Defaults to "whois.internic.net".
+        port (int, optional): The port number of the WHOIS server. Defaults to 43.
+
+    Returns:
+        str: The WHOIS information for the domain, stripped of whitespace.
+    """
+
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.connect((server, port))
+
+        # Combine domain lookup string and line ending
+        lookup = f"{domain}{LINEEND}".encode()
+        s.sendall(lookup)
+
+        readable, _, _ = select.select([s], [], [], 60)  # Wait for readability only
+        if s in select.WRITABLE:
+            raise ConnectionError("Unexpected writable state after sending lookup")
+
+        response = b''
+        while s in readable:
+            data = s.recv(BUFSIZE)
+            response += data
+            if not data:
+                break  # Connection closed
+
+    return response.decode().strip()  # Decode and strip whitespace
+
+def main() -> None:
+    """
+    Reads a list of domains from a file and performs WHOIS lookups for each one.
+
+    Raises:
+        FileNotFoundError: If the specified input file is not found.
+    """
+
+    try:
+        with open(FILEPATH) as inputfile:
+            domains: List[str] = [line.rstrip() for line in inputfile]  # Type hint for clarity
+    except FileNotFoundError:
+        print(f"Error: Input file '{FILEPATH}' not found.")
+        return
+
+    for domain in domains:
+        print(f"WHOIS for {domain}:")
+        whois_info = whois(domain)
+        print(whois_info)
+
+if __name__ == "__main__":
     main()
-    pass
