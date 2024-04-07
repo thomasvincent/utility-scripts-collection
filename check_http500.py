@@ -1,63 +1,41 @@
-#!/opt/zenoss/bin/python
+#!/usr/bin/env python3
 
-
-import os
 import sys
-import re
-import urllib2
+import argparse
+import requests
+from email.mime.text import MIMEText
+import smtplib
 
-def help():
-    print "Usage:"
-    print "check_http500.py --email=DESTINATION_EMAIL_ADDRESS --host=HOST --port=PORT"
-    sys.exit(3)
+def send_mail(email, host, error_message):
+    msg = MIMEText(error_message)
+    msg['Subject'] = f'Server failure at host {host}'
+    msg['From'] = "root@localhost"
+    msg['To'] = email
 
-if len(sys.argv) != 4:
-    help()
-
-else:
-    args=[]
-    args.append(sys.argv[1])
-    args.append(sys.argv[2])
-    args.append(sys.argv[3])
-    email=""
-    host=""
-    port=80
-    for ea in args:
-        if ("email" in ea):
-            email = ea.replace("--email=","").replace("-email=","")
-            continue
-        if ("host" in ea):
-            host = ea.replace("--host=","").replace("-host=","")
-            continue
-        if ("port" in ea):
-            port = ea.replace("--port=","").replace("-port=","")
-            port = int(port)
-            continue
-    #Args parsing done.
     try:
-        proto = "http://"
-        if (port == 443):
-            proto = "https://"
-        url = proto+host+":"+str(port)+"/"
-        request = urllib2.Request(url)
-        response = urllib2.urlopen(request)
-        content = response.read()
-    except (urllib2.HTTPError, urllib2.URLError), e:
-        if (e.code == 500):
-            #print e.code
-            #print e.read()
-            print 'Sending mail message to %s' % email
-            ### SEND MAIL MESSAGE ###
-            import smtplib
-            from email.mime.text import MIMEText
-            msg = MIMEText(e.read())
+        with smtplib.SMTP('localhost') as smtp:
+            smtp.sendmail("root@localhost", [email], msg.as_string())
+            print('Message sent.')
+    except Exception as e:
+        print(f'Failed to send email: {e}')
 
-            me = "root@localhost"
-            you = "not_a_box@mail.com"
-            msg['Subject'] = 'Server failure at host %s' % host
-            msg['From'] = me
-            msg['To'] = you
-            s = smtplib.SMTP('127.0.0.1')
-            s.sendmail(me, [you], msg.as_string())
-            s.quit()
-            print 'Message sent.'
+def check_server(host, port, email):
+    proto = "https://" if port == 443 else "http://"
+    url = f"{proto}{host}:{port}/"
+
+    try:
+        response = requests.get(url)
+        if response.status_code == 500:
+            send_mail(email, host, 'HTTP 500: Server Error')
+    except requests.exceptions.RequestException as e:
+        print(f'Error contacting {url}: {e}')
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Check HTTP 500 errors on a server.')
+    parser.add_argument('--email', required=True, help='Destination email address')
+    parser.add_argument('--host', required=True, help='Host to check')
+    parser.add_argument('--port', type=int, default=80, help='Port number (default: 80)')
+    
+    args = parser.parse_args()
+
+    check_server(args.host, args.port, args.email)
