@@ -1,0 +1,61 @@
+# Sample configuration file for OpsForge
+# Copy this file to config.yaml and modify as needed
+
+# General settings
+general:
+  log_level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_file: /var/log/opsforge.log
+
+# HTTP monitoring configuration
+http:
+  default_timeout: 10  # seconds
+  alert_codes: [500, 502, 503, 504]
+  verify_ssl: true
+  user_agent: "OpsForge HTTP Monitor/1.0"
+  smtp:
+    server: smtp.example.com
+    port: 587
+    use_tls: true
+    sender: alerts@example.com
+    username: alerts@example.com
+    # password: set via environment variable OPSFORGE_SMTP_PASSWORD
+
+# DNS management configuration
+dns:
+  default_nameserver: 8.8.8.8
+  tinydns:
+    data_dir: /service/tinydns/root
+  gdocs:
+    credentials_file: /path/to/google-credentials.json
+
+# Filesystem monitoring
+filesystem:
+  exclude_types:
+    - tmpfs
+    - devtmpfs
+    - proc
+    - sysfs
+    - cgroup
+    - configfs
+  ssh:
+    default_user: root
+    default_port: 22
+    identity_file: ~/.ssh/id_rsa
+    timeout: 10
+
+# Zenoss integration
+zenoss:
+  url: https://zenoss.example.com
+  username: admin
+  # password: set via environment variable OPSFORGE_ZENOSS_PASSWORD
+  default_collector: localhost
+  ssh:
+    user: zenoss
+    port: 22
+    identity_file: ~/.ssh/zenoss_key
+
+# SoftLayer integration
+softlayer:
+  api_key: your_api_key_here
+  username: your_username
+  endpoint: https://api.softlayer.com/rest/v3

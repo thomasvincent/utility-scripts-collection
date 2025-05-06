@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - ~/.config/opsforge:/config
+    environment:
+      - CONFIG_PATH=/config/config.yaml
+    command: "--help"
