@@ -1,5 +1,4 @@
-"""
-HTTP 500 (and other status codes) monitoring tool.
+"""HTTP 500 (and other status codes) monitoring tool.
 
 This module provides a tool for monitoring web servers for specific HTTP status codes,
 such as 500 errors, and sending notifications when these conditions occur.
@@ -11,22 +10,22 @@ For more options:
     $ python -m utility_scripts.http.http500 --help
 """
 
+import argparse
 import logging
 import os
 import smtplib
-import argparse
-from email.mime.text import MIMEText
-from typing import List, Optional, Dict, Union, Tuple
 from dataclasses import dataclass, field
+from email.mime.text import MIMEText
+from typing import Dict, List, Optional, Tuple, Union
 
 import requests
 
-from utility_scripts.common.logging import setup_logging, get_logger
 from utility_scripts.common.exceptions import (
-    UtilityScriptError,
-    NetworkError,
     AuthenticationError,
+    NetworkError,
+    UtilityScriptError,
 )
+from utility_scripts.common.logging import get_logger, setup_logging
 
 # Get logger for this module
 logger = get_logger(__name__)
@@ -49,7 +48,11 @@ class CheckTarget:
     path: str = "/"  # Path to check
     
     def get_url(self) -> str:
-        """Constructs the full URL for the check."""
+        """Constructs the full URL for the check.
+        
+        Returns:
+            str: The complete URL including scheme, host, port, and path.
+        """
         return f"{self.scheme}://{self.host}:{self.port}{self.path}"
 
 
@@ -88,6 +91,11 @@ class HttpCheckError(UtilityScriptError):
     """Error during HTTP check execution."""
 
     def __init__(self, message: str = "HTTP check failed"):
+        """Initialize with a custom message.
+        
+        Args:
+            message: Description of the HTTP check error.
+        """
         super().__init__(f"HTTP check error: {message}")
 
 
@@ -95,6 +103,11 @@ class NotificationError(UtilityScriptError):
     """Error during notification sending."""
 
     def __init__(self, message: str = "Notification failed"):
+        """Initialize with a custom message.
+        
+        Args:
+            message: Description of the notification error.
+        """
         super().__init__(f"Notification error: {message}")
 
 
@@ -103,17 +116,21 @@ class HttpChecker:
     """Performs HTTP checks against a target."""
 
     def __init__(self, timeout: int = DEFAULT_TIMEOUT):
+        """Initialize the HTTP checker.
+        
+        Args:
+            timeout: Request timeout in seconds.
+        """
         self._timeout = timeout
 
     def check(self, target: CheckTarget) -> CheckResult:
-        """
-        Performs a GET request to the target URL.
+        """Performs a GET request to the target URL.
 
         Args:
             target: The target to check.
 
         Returns:
-            CheckResult containing success status, code, content, or error.
+            CheckResult object containing success status, code, content, or error.
         """
         url = target.get_url()
         logger.info(f"Checking URL: {url}")
@@ -144,7 +161,15 @@ class Notifier:
     """Interface for notification services."""
 
     def notify(self, subject: str, body: str) -> None:
-        """Sends a notification."""
+        """Sends a notification.
+        
+        Args:
+            subject: The notification subject.
+            body: The notification content.
+            
+        Raises:
+            NotImplementedError: This method must be implemented by subclasses.
+        """
         raise NotImplementedError("Subclasses must implement notify()")
 
 
@@ -152,12 +177,17 @@ class EmailNotifier(Notifier):
     """Sends notifications via email using SMTP."""
 
     def __init__(self, smtp_config: SmtpConfig, details: NotificationDetails):
+        """Initialize the email notifier with configuration.
+        
+        Args:
+            smtp_config: Configuration for the SMTP server.
+            details: Details for sending notifications.
+        """
         self._config = smtp_config
         self._details = details
 
     def notify(self, subject: str, body: str) -> None:
-        """
-        Sends an email notification.
+        """Sends an email notification.
 
         Args:
             subject: The email subject line.
@@ -165,6 +195,8 @@ class EmailNotifier(Notifier):
 
         Raises:
             NotificationError: If sending the email fails.
+            AuthenticationError: If SMTP authentication fails.
+            NetworkError: If there's a network problem connecting to the server.
         """
         msg = MIMEText(body)
         msg["Subject"] = subject
@@ -213,14 +245,21 @@ class EmailNotifier(Notifier):
 class ServerMonitor:
     """Orchestrates server checking and notification."""
 
-    def __init__(self, checker: HttpChecker, notifier: Notifier, alert_codes: List[int]):
+    def __init__(self, checker: HttpChecker, notifier: Notifier, 
+                 alert_codes: List[int]):
+        """Initialize the server monitor.
+        
+        Args:
+            checker: HTTP checker to use for requests.
+            notifier: Notifier to use for sending alerts.
+            alert_codes: List of HTTP status codes that should trigger alerts.
+        """
         self._checker = checker
         self._notifier = notifier
         self._alert_codes = set(alert_codes)  # Use a set for faster lookups
 
     def run_check_and_notify(self, target: CheckTarget) -> None:
-        """
-        Runs the check and sends notification if an alert code is matched.
+        """Runs the check and sends notification if an alert code is matched.
         
         Args:
             target: The target to check.
@@ -267,11 +306,11 @@ class ServerMonitor:
 
 # Configuration Loading
 def load_smtp_config_from_env() -> SmtpConfig:
-    """
-    Loads SMTP configuration securely from environment variables.
+    """Loads SMTP configuration securely from environment variables.
     
     Returns:
-        SmtpConfig object with SMTP server configuration.
+        SmtpConfig: Object with SMTP server configuration from environment
+        variables.
     """
     username = os.getenv("SMTP_USER")
     password = os.getenv("SMTP_PASSWORD")
@@ -290,39 +329,38 @@ def load_smtp_config_from_env() -> SmtpConfig:
 
 
 def main() -> None:
-    """Parses arguments, sets up components, and runs the check."""
+    """Parses command line arguments, sets up components, and runs the check.
+    
+    Returns:
+        None
+    """
     # Set up logging
     setup_logging(log_level=os.getenv("LOG_LEVEL", "INFO"))
     
     parser = argparse.ArgumentParser(description="Monitor HTTP status codes on a server and notify via email.")
-    parser.add_argument("--email", required=True, help="Destination email address for notifications")
-    parser.add_argument("--host", required=True, help="Host address (e.g., example.com or IP) to check")
-    parser.add_argument("--port", type=int, default=None, help="Port number (default: 80 for http, 443 for https)")
     parser.add_argument(
-        "--scheme", 
-        choices=["http", "https"], 
-        default=None, 
-        help="Protocol scheme (default: http for port 80, https for 443/other)"
-    )
+        "--email", required=True, 
+        help="Destination email address for notifications")
     parser.add_argument(
-        "--path",
-        default="/",
-        help="Path to check (default: /)"
-    )
+        "--host", required=True, 
+        help="Host address (e.g., example.com or IP) to check")
     parser.add_argument(
-        "--codes",
-        type=int,
-        nargs="+",
+        "--port", type=int, default=None, 
+        help="Port number (default: 80 for http, 443 for https)")
+    parser.add_argument(
+        "--scheme", choices=["http", "https"], default=None, 
+        help="Protocol scheme (default: http for port 80, https for 443/other)")
+    parser.add_argument(
+        "--path", default="/",
+        help="Path to check (default: /)")
+    parser.add_argument(
+        "--codes", type=int, nargs="+", 
         default=[500, 502, 503, 504],  # Default to common server error codes
         dest="alert_codes",
-        help="HTTP status codes to trigger alerts (default: 500 502 503 504)",
-    )
+        help="HTTP status codes to trigger alerts (default: 500 502 503 504)")
     parser.add_argument(
-        "--timeout", 
-        type=int, 
-        default=DEFAULT_TIMEOUT, 
-        help=f"Request timeout in seconds (default: {DEFAULT_TIMEOUT})"
-    )
+        "--timeout", type=int, default=DEFAULT_TIMEOUT, 
+        help=f"Request timeout in seconds (default: {DEFAULT_TIMEOUT})")
 
     args = parser.parse_args()
 

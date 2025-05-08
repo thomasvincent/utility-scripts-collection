@@ -1,25 +1,23 @@
-"""
-Command-line interface for OpsForge.
+"""Command-line interface for OpsForge.
 
 This module provides the main CLI entry point for the OpsForge package,
 integrating all commands under a single interface.
 """
 
 import argparse
-import sys
 import importlib
-from typing import List, Optional, Dict, Any
+import sys
+from typing import Any, Dict, List, Optional
 
-from opsforge.common.logging import setup_logging
 from opsforge.common.exceptions import OpsForgeError
+from opsforge.common.logging import setup_logging
 
 
 def main() -> int:
-    """
-    Main entry point for the OpsForge CLI.
+    """Main entry point for the OpsForge CLI.
     
     Returns:
-        Exit code (0 for success, non-zero for errors).
+        int: Exit code (0 for success, non-zero for errors).
     """
     # Set up logging
     setup_logging()
@@ -31,53 +29,76 @@ def main() -> int:
     )
     
     # Create a subparser for each command
-    subparsers = parser.add_subparsers(dest="command", help="Command to execute")
+    subparsers = parser.add_subparsers(
+        dest="command", help="Command to execute")
     
     # HTTP commands
-    http500_parser = subparsers.add_parser("http500", help="Monitor HTTP 500 errors")
-    http500_parser.add_argument("--host", required=True, help="Host to check")
-    http500_parser.add_argument("--email", required=True, help="Email for notifications")
-    http500_parser.add_argument("--port", type=int, help="Port number")
-    http500_parser.add_argument("--scheme", choices=["http", "https"], help="Protocol scheme")
-    http500_parser.add_argument("--path", default="/", help="Path to check")
-    http500_parser.add_argument("--codes", type=int, nargs="+", help="HTTP status codes to alert on")
-    http500_parser.add_argument("--timeout", type=int, help="Request timeout in seconds")
+    http500_parser = subparsers.add_parser(
+        "http500", help="Monitor HTTP 500 errors")
+    http500_parser.add_argument(
+        "--host", required=True, help="Host to check")
+    http500_parser.add_argument(
+        "--email", required=True, help="Email for notifications")
+    http500_parser.add_argument(
+        "--port", type=int, help="Port number")
+    http500_parser.add_argument(
+        "--scheme", choices=["http", "https"], help="Protocol scheme")
+    http500_parser.add_argument(
+        "--path", default="/", help="Path to check")
+    http500_parser.add_argument(
+        "--codes", type=int, nargs="+", help="HTTP status codes to alert on")
+    http500_parser.add_argument(
+        "--timeout", type=int, help="Request timeout in seconds")
     
     # Filesystem commands
-    readonly_parser = subparsers.add_parser("readonly", help="Check for read-only filesystems")
-    readonly_parser.add_argument("--host", "-H", required=True, help="SSH Remote host")
-    readonly_parser.add_argument("--user", "-u", default="root", help="SSH Remote user")
-    readonly_parser.add_argument("--port", "-p", type=int, default=22, help="SSH Remote port")
-    readonly_parser.add_argument("--identity", "-i", help="SSH identity file")
-    readonly_parser.add_argument("--mount-table", "-m", default="/proc/mounts", 
-                                help="Mount table path")
-    readonly_parser.add_argument("--partition", "-P", action="append", dest="part_filter",
-                                help="Pattern of partition to check")
-    readonly_parser.add_argument("--exclude", "-x", dest="exclude",
-                                help="Pattern of partition to ignore")
-    readonly_parser.add_argument("--exclude-type", "-X", action="append", dest="exclude_type",
-                                help="File system types to exclude")
+    readonly_parser = subparsers.add_parser(
+        "readonly", help="Check for read-only filesystems")
+    readonly_parser.add_argument(
+        "--host", "-H", required=True, help="SSH Remote host")
+    readonly_parser.add_argument(
+        "--user", "-u", default="root", help="SSH Remote user")
+    readonly_parser.add_argument(
+        "--port", "-p", type=int, default=22, help="SSH Remote port")
+    readonly_parser.add_argument(
+        "--identity", "-i", help="SSH identity file")
+    readonly_parser.add_argument(
+        "--mount-table", "-m", default="/proc/mounts", help="Mount table path")
+    readonly_parser.add_argument(
+        "--partition", "-P", action="append", dest="part_filter",
+        help="Pattern of partition to check")
+    readonly_parser.add_argument(
+        "--exclude", "-x", dest="exclude", help="Pattern of partition to ignore")
+    readonly_parser.add_argument(
+        "--exclude-type", "-X", action="append", dest="exclude_type",
+        help="File system types to exclude")
     
     # DNS commands
-    dns_parser = subparsers.add_parser("dns", help="DNS management tools")
+    dns_parser = subparsers.add_parser(
+        "dns", help="DNS management tools")
     dns_subparsers = dns_parser.add_subparsers(dest="dns_command")
     
     # DNS get
-    dns_get_parser = dns_subparsers.add_parser("get", help="Get zone records for a domain")
-    dns_get_parser.add_argument("domain", help="Domain to retrieve zone records for")
-    dns_get_parser.add_argument("--server", "-s", help="Name server to query")
+    dns_get_parser = dns_subparsers.add_parser(
+        "get", help="Get zone records for a domain")
+    dns_get_parser.add_argument(
+        "domain", help="Domain to retrieve zone records for")
+    dns_get_parser.add_argument(
+        "--server", "-s", help="Name server to query")
     
     # DNS search
-    dns_search_parser = dns_subparsers.add_parser("search", help="Search for a hostname in a file")
-    dns_search_parser.add_argument("hostname", help="Hostname to search for")
-    dns_search_parser.add_argument("--file", "-f", required=True, help="File to search in")
+    dns_search_parser = dns_subparsers.add_parser(
+        "search", help="Search for a hostname in a file")
+    dns_search_parser.add_argument(
+        "hostname", help="Hostname to search for")
+    dns_search_parser.add_argument(
+        "--file", "-f", required=True, help="File to search in")
     
     # DNS tinydns
-    dns_tinydns_parser = dns_subparsers.add_parser("tinydns", 
-                                                 help="Import records from TinyDNS data directory")
-    dns_tinydns_parser.add_argument("--directory", "-d", 
-                                   default="/service/tinydns", 
-                                   help="TinyDNS data directory")
+    dns_tinydns_parser = dns_subparsers.add_parser(
+        "tinydns", help="Import records from TinyDNS data directory")
+    dns_tinydns_parser.add_argument(
+        "--directory", "-d", default="/service/tinydns",
+        help="TinyDNS data directory")
     
     # Parse the arguments
     args = parser.parse_args()
