@@ -1,18 +1,19 @@
 #!/bin/bash
 #
-# Description:
-#   This script identifies non-loopback network interfaces, retrieves their link
-#   speed using 'ethtool', converts the speed to a standardized unit (kbit/s),
-#   and reports the results.
+# Identifies network interface speeds and converts to standardized units.
+#
+# This script identifies non-loopback network interfaces, retrieves their link
+# speed using 'ethtool', converts the speed to a standardized unit (kbit/s),
+# and reports the results.
 #
 # Dependencies:
-#   - bash (v4.0+ recommended for potential associative arrays, though not used here)
-#   - ethtool: Utility for querying network device settings.
-#   - iproute2 (provides 'ip'): Modern utility for IP configuration (preferred over 'ifconfig').
-#   - coreutils (grep, awk, sed): Standard text processing utilities.
+#   - bash (v4.0+ recommended for mapfile/associative arrays)
+#   - ethtool: Utility for querying network device settings
+#   - iproute2 (provides 'ip'): Modern utility for IP configuration
+#   - coreutils (grep, awk, sed): Standard text processing utilities
 #
 # Usage:
-#   ./script_name.sh
+#   ./interfaces_speed.sh
 #
 # Exit Codes:
 #   0: Success
