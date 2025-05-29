@@ -1,36 +1,20 @@
-.PHONY: clean clean-test clean-pyc clean-build test coverage lint format type check all help
+.PHONY: clean clean-test clean-pyc clean-build test coverage lint format type help
 .DEFAULT_GOAL := help
 
-# Variables
-PYTHON := python3
-PIP := pip3
-BLACK_LINE_LENGTH := 80
-TEST_PATH := tests/
-SRC_PATHS := src/ DNSScript/dns_manager.py WhoisScript/main.py NagiosPlugins/check_http500/check_http500_clean.py
-
 help:
-	@echo "Utility Scripts Collection - Makefile Commands"
-	@echo "============================================="
-	@echo ""
-	@echo "Development Commands:"
-	@echo "  make dev-install  - install development dependencies"
-	@echo "  make format       - format code with black and isort"
-	@echo "  make lint         - check style with flake8 and pylint"
-	@echo "  make type         - run type checking with mypy"
-	@echo "  make test         - run tests quickly with pytest"
-	@echo "  make coverage     - check code coverage with pytest"
-	@echo "  make check        - run all checks (lint, type, test)"
-	@echo "  make all          - format code and run all checks"
-	@echo ""
-	@echo "Cleanup Commands:"
-	@echo "  make clean        - remove all artifacts"
-	@echo "  make clean-build  - remove build artifacts"
-	@echo "  make clean-pyc    - remove Python file artifacts"
-	@echo "  make clean-test   - remove test and coverage artifacts"
-	@echo ""
-	@echo "Distribution Commands:"
-	@echo "  make dist         - build source and wheel distributions"
-	@echo "  make install      - install the package"
+	@echo "Commands:"
+	@echo "  clean      - remove all build, test, coverage, and Python artifacts"
+	@echo "  clean-build - remove build artifacts"
+	@echo "  clean-pyc  - remove Python file artifacts"
+	@echo "  clean-test - remove test and coverage artifacts"
+	@echo "  lint       - check style with flake8"
+	@echo "  format     - format code with black and isort"
+	@echo "  test       - run tests quickly with pytest"
+	@echo "  coverage   - check code coverage quickly with pytest"
+	@echo "  type       - run type checking with mypy"
+	@echo "  dist       - build source and wheel distributions"
+	@echo "  install    - install the package to the active Python's site-packages"
+	@echo "  dev-install - install development dependencies"
 
 clean: clean-build clean-pyc clean-test
 
@@ -52,57 +36,35 @@ clean-test:
 	rm -fr .coverage
 	rm -fr htmlcov/
 	rm -fr .mypy_cache/
-	rm -fr .tox/
-
-format:
-	@echo "Formatting code with isort..."
-	$(PYTHON) -m isort $(SRC_PATHS) $(TEST_PATH)
-	@echo "Formatting code with black..."
-	$(PYTHON) -m black --line-length=$(BLACK_LINE_LENGTH) $(SRC_PATHS) $(TEST_PATH)
 
 lint:
-	@echo "Running flake8..."
-	$(PYTHON) -m flake8 $(SRC_PATHS) $(TEST_PATH)
-	@echo "Running pylint..."
-	$(PYTHON) -m pylint $(SRC_PATHS) || true
+	flake8 src tests
+	isort --check-only --profile black src tests
+	black --check src tests
 
-type:
-	@echo "Running mypy type checker..."
-	$(PYTHON) -m mypy $(SRC_PATHS)
+format:
+	isort src tests
+	black src tests
 
 test:
-	@echo "Running pytest..."
-	$(PYTHON) -m pytest -v $(TEST_PATH)
+	pytest
 
 coverage:
-	@echo "Running tests with coverage..."
-	$(PYTHON) -m pytest --cov=src --cov=DNSScript --cov=WhoisScript --cov=NagiosPlugins \
-		--cov-report=term-missing --cov-report=html $(TEST_PATH)
-	@echo "Coverage report generated in htmlcov/"
+	pytest --cov=utility_scripts tests/
+	coverage report -m
+	coverage html
 
-check: lint type test
-	@echo "All checks passed!"
-
-all: format check
-	@echo "Code formatted and all checks passed!"
+type:
+	mypy src tests
 
 dist: clean
-	@echo "Building distribution packages..."
-	$(PYTHON) -m build
+	python -m build
 	ls -l dist
 
 install: clean
-	@echo "Installing package..."
-	$(PIP) install .
+	pip install .
 
 dev-install:
-	@echo "Installing development dependencies..."
-	$(PIP) install -e ".[dev]"
-	@echo "Installing pre-commit hooks..."
+	pip install -e ".[dev]"
 	pre-commit install
 	pre-commit install --hook-type commit-msg
-	@echo "Development environment setup complete!"
-
-# Run the comprehensive test script
-test-all:
-	$(PYTHON) run_tests.py

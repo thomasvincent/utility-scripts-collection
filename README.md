@@ -1,10 +1,9 @@
-# Utility Scripts Collection (OpsForge)
+# OpsForge
 
-![Build Status](https://github.com/thomasvincent/utility-scripts-collection/actions/workflows/ci.yml/badge.svg)
-![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)
+![Build Status](https://github.com/thomasvincent/opsforge/actions/workflows/ci.yml/badge.svg)
+![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Code style: Google](https://img.shields.io/badge/code%20style-google-blue.svg)](https://google.github.io/styleguide/pyguide.html)
 
 A forge of essential tools for DevOps engineers and system administrators. This package provides a set of command-line tools for common tasks including HTTP monitoring, DNS management, filesystem checks, and more.
 
@@ -27,23 +26,19 @@ pip install opsforge
 ### From Source
 
 ```bash
-git clone https://github.com/thomasvincent/utility-scripts-collection.git
-cd utility-scripts-collection
+git clone https://github.com/thomasvincent/opsforge.git
+cd opsforge
 pip install -e .
 ```
 
 ### Development Installation
 
 ```bash
-git clone https://github.com/thomasvincent/utility-scripts-collection.git
-cd utility-scripts-collection
-make dev-install
+git clone https://github.com/thomasvincent/opsforge.git
+cd opsforge
+pip install -e ".[dev]"
+pre-commit install
 ```
-
-This will:
-- Install all development dependencies
-- Set up pre-commit hooks
-- Configure your development environment
 
 ## Configuration
 
@@ -130,91 +125,40 @@ The package is organized into the following modules:
 - `opsforge.monitoring`: General monitoring utilities
 - `opsforge.common`: Shared utilities and helper functions
 
-## Cleaned Up Scripts
-
-The following scripts have been modernized to follow Python 3.10+ best practices and Google Python Style Guide:
-
-### DNS Manager (`DNSScript/dns_manager.py`)
-- Full type hints and dataclasses
-- Proper error handling and logging
-- Support for DNS queries, hosts file search, and TinyDNS import
-- Comprehensive test coverage
-
-### WHOIS Script (`WhoisScript/main.py`)
-- Clean architecture with abstract base classes
-- Type-safe implementation with dataclasses
-- Proper socket handling with timeouts
-- Full test suite
-
-### HTTP 500 Checker (`NagiosPlugins/check_http500/check_http500_clean.py`)
-- Nagios plugin compliant exit codes
-- Email notification support
-- Configurable SMTP settings
-- Type hints throughout
-
-All scripts include:
-- ✅ Type hints for all functions
-- ✅ Proper docstrings (Google style)
-- ✅ Error handling with custom exceptions
-- ✅ Logging configuration
-- ✅ Command-line argument parsing with argparse
-- ✅ Unit tests with pytest
-- ✅ No hardcoded values
-- ✅ Security best practices
-
 ## Development
 
 ### Testing
 
-Run all tests:
+Run tests with pytest:
 
 ```bash
-make test
+pytest
 ```
 
 Run tests with coverage:
 
 ```bash
-make coverage
-```
-
-Run all checks (lint, type checking, tests):
-
-```bash
-make check
+pytest --cov=opsforge
 ```
 
 ### Code Style
 
-This project follows the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) and uses:
-- **Black** for code formatting (80 character line limit)
-- **isort** for import sorting
-- **Flake8** for linting
-- **pylint** for additional style checking
-- **mypy** for type checking
+This project uses:
+- Black for code formatting
+- isort for import sorting
+- Flake8 for linting
+- mypy for type checking
 
-Format code:
-
-```bash
-make format
-```
-
-Check code style:
+Run all style checks:
 
 ```bash
-make lint
-```
+# Format code
+black src tests
+isort src tests
 
-Run type checking:
-
-```bash
-make type
-```
-
-Run everything (format and all checks):
-
-```bash
-make all
+# Check code
+flake8 src tests
+mypy src tests
 ```
 
 ## Contributing

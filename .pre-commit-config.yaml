@@ -1,8 +1,4 @@
-# Pre-commit hooks configuration
-# Google Python Style Guide compliant
-
 repos:
-  # General file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -10,98 +6,43 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
-        args: ['--maxkb=1000']
-      - id: check-json
       - id: check-toml
-      - id: check-xml
       - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: detect-private-key
       - id: debug-statements
-      - id: check-docstring-first
-      - id: name-tests-test
-        args: ['--django']
-      - id: requirements-txt-fixer
 
-  # Python code formatting - Black
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-        language_version: python3.10
-        args: ['--line-length=80']
-
-  # Import sorting - isort
-  - repo: https://github.com/PyCQA/isort
+  - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
-        name: isort (python)
-        args: ['--settings-path=.isort.cfg']
+        args: ["--profile", "black"]
 
-  # Linting - flake8
-  - repo: https://github.com/PyCQA/flake8
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
       - id: flake8
         additional_dependencies:
           - flake8-docstrings
+          - flake8-quotes
           - flake8-bugbear
-          - flake8-comprehensions
-          - flake8-simplify
-        args: ['--config=.flake8']
 
-  # Type checking - mypy
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.2.0
+    rev: v1.0.1
     hooks:
       - id: mypy
-        additional_dependencies: [types-all]
-        args: ['--config-file=pyproject.toml']
+        additional_dependencies:
+          - types-requests
+          - types-PyYAML
 
-  # Docstring formatting
-  - repo: https://github.com/PyCQA/pydocstyle
-    rev: 6.3.0
+  # Conventional commit message validation
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v2.1.1
     hooks:
-      - id: pydocstyle
-        args: ['--convention=google']
-
-  # Security checks
-  - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.5
-    hooks:
-      - id: bandit
-        args: ['-ll', '--skip', 'B101,B601']
-
-  # Markdown linting
-  - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.33.0
-    hooks:
-      - id: markdownlint
-        args: ['--fix']
-
-  # YAML linting
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.30.0
-    hooks:
-      - id: yamllint
-        args: ['-c=.yamllint']
-
-# Configuration
-default_language_version:
-  python: python3.10
-
-# Files to exclude
-exclude: |
-  (?x)^(
-    migrations/|
-    venv/|
-    env/|
-    build/|
-    dist/|
-    \.git/|
-    \.mypy_cache/|
-    \.pytest_cache/|
-    __pycache__/|
-    .*\.egg-info/
-  )
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
