@@ -3,6 +3,7 @@
 import socket
 import argparse
 import logging
+import sys
 from typing import List, Optional
 from contextlib import closing
 from dataclasses import dataclass, field
@@ -270,5 +271,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    import sys # Import sys here for stderr printing in main
     main()
