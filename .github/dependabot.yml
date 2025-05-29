@@ -1,34 +1,180 @@
 version: 2
 updates:
+  # GitHub Actions - Daily checks for all repositories
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Docker - Daily checks for all repositories
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 3
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # NPM (Node.js) - Daily checks
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Pip (Python) - Daily checks
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
     assignees:
-      - "thomasvincent"
-    reviewers:
       - "thomasvincent"
     labels:
       - "dependencies"
       - "python"
-    open-pull-requests-limit: 10
     commit-message:
-      prefix: "deps"
+      prefix: "build(deps)"
       include: "scope"
     rebase-strategy: "auto"
-  
-  - package-ecosystem: "github-actions"
+
+  # Cargo (Rust) - Daily checks
+  - package-ecosystem: "cargo"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
     assignees:
-      - "thomasvincent"
-    reviewers:
       - "thomasvincent"
     labels:
       - "dependencies"
-      - "ci"
-    open-pull-requests-limit: 10
+      - "rust"
     commit-message:
-      prefix: "ci"
+      prefix: "build(deps)"
       include: "scope"
+    rebase-strategy: "auto"
+
+  # Go modules - Daily checks
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "go"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Bundler (Ruby) - Daily checks
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "ruby"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Maven (Java) - Daily checks
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "java"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Gradle (Java) - Daily checks
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 5
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "java"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"  # Python (pip)
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+      timezone: "America/Los_Angeles"
+    open-pull-requests-limit: 10
+    assignees:
+      - "thomasvincent"
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "build(deps)"
+      include: "scope"
+    rebase-strategy: "auto"
+

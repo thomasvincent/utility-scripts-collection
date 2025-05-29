@@ -1,0 +1,53 @@
+[flake8]
+# Google Python Style Guide Configuration
+
+# Maximum line length
+max-line-length = 80
+
+# Maximum complexity
+max-complexity = 10
+
+# Ignore certain errors
+ignore = 
+    # E203: whitespace before ':' (conflicts with black)
+    E203,
+    # W503: line break before binary operator (conflicts with PEP8)
+    W503,
+    # E501: line too long (we use max-line-length)
+    E501
+
+# Exclude paths
+exclude = 
+    .git,
+    __pycache__,
+    build,
+    dist,
+    venv,
+    env,
+    .eggs,
+    *.egg,
+    migrations,
+    .tox,
+    .mypy_cache,
+    .pytest_cache,
+    .coverage,
+    htmlcov,
+    docs
+
+# Enable additional checks
+select = E,W,F,C,N
+
+# McCabe complexity checker
+max-complexity = 10
+
+# Format for error output
+format = %(path)s:%(row)d:%(col)d: %(code)s %(text)s
+
+# Show source code for errors
+show-source = True
+
+# Count total errors
+count = True
+
+# Show statistics
+statistics = True
